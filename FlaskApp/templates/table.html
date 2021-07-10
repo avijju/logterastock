@@ -1,0 +1,87 @@
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+
+<table id="myTable" class="table table-striped" style="width:100%" >
+            <thead>
+              <tr>
+            <th>Created Date</th>
+            <th>CreatedTime</th>
+            <th>Symbol</th>
+            <th>Type</th>
+            <th>Volume</th>
+            <th>Price</th>
+            <th>Side</th>
+            <th>CallPut</th>
+            <th>Strike</th>
+            <th>Spot</th>
+            <th>Premium</th>
+            <th>Expiration Date</th>                
+            <th>Color</th>
+            <th>Sector</th>
+            <th>Market Capture</th>                                   
+          </tr>
+        </thead> 
+          </table> 
+         
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable( {
+       
+       "ajax": {  "url":"/table",
+      
+       "dataSrc": "",
+   },
+       // add column definitions to map your json to the table                                           
+       "columns": [
+           {data: "CreatedDate"},
+           {data: "CreatedTime"},
+           {data: "Symbol"},
+           {data: "Type"},
+           {data: "Volume"},
+           {data: "Price"},
+           {data: "Side"},
+           {data: "CallPut"},
+           {data: "Strike"},
+           {data: "Spot"},
+           {data: "Premium"},
+           {data: "ExpirationDate"},
+           {data: "Color"},
+           {data: "Sector"},
+           {data: "MktCap"}
+       ]
+   
+   } );
+    setInterval(function(){
+        $('#myTable').DataTable().clear().destroy();
+    $('#myTable').DataTable( {
+       
+        "ajax": {  "url":"/table",
+       
+        "dataSrc": "",
+    },
+        // add column definitions to map your json to the table                                           
+        "columns": [
+            {data: "CreatedDate"},
+            {data: "CreatedTime"},
+            {data: "Symbol"},
+            {data: "Type"},
+            {data: "Volume"},
+            {data: "Price"},
+            {data: "Side"},
+            {data: "CallPut"},
+            {data: "Strike"},
+            {data: "Spot"},
+            {data: "Premium"},
+            {data: "ExpirationDate"},
+            {data: "Color"},
+            {data: "Sector"},
+            {data: "MktCap"}
+        ]
+    
+    } );
+},60000);
+});
+</script>

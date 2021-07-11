@@ -29,7 +29,7 @@ from polygon import WebSocketClient, STOCKS_CLUSTER, CRYPTO_CLUSTER, FOREX_CLUST
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 conn_params_dic = {
-    "host"      : "34.136.65.150",
+    "host"      : "5.189.178.77",
     "database"  : "dataana",
     "user"      : "root",
     "password"  : "logtera"
@@ -64,7 +64,7 @@ def upload_files():
       return 'file uploaded successfully'
 
 def execute_many(datafrm, table):    
-#     conn = msql.connect(host='34.136.65.150',
+#     conn = msql.connect(host='5.189.178.77',
 # database='dataana',
 # user='root',
 # password="logtera@1234")
@@ -78,7 +78,7 @@ def execute_many(datafrm, table):
     # SQL query to execute
     # sql = "INSERT INTO %s(%s) VALUES(%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s,%%s)" % (table, cols)
     # cursor = conn.cursor()
-    connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "34.136.65.150",  "dataana")
+    connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "5.189.178.77",  "dataana")
     # engine = create_engine(sqlalchemy.engine.url.URL.create(
     #     drivername="mysql+pymysql",
     #     username="avi",  # e.g. "my-database-user"
@@ -100,7 +100,7 @@ def execute_many(datafrm, table):
         # cursor.close()
 @app.route('/table')                                                                                  
 def page_test():
-    db = msql.connect(host='34.136.65.150',
+    db = msql.connect(host='5.189.178.77',
                              user='avi',
                              passwd='logtera',
                              db='dataana')
@@ -127,7 +127,7 @@ def tables():
    return render_template('table.html')
 @app.route('/stockdata')                                                                                  
 def stockdata():
-    db = msql.connect(host='34.136.65.150',
+    db = msql.connect(host='5.189.178.77',
                              user='avi',
                              passwd='logtera',
                              db='Stock')
@@ -174,7 +174,7 @@ def myconverter(o):
 
 @app.route('/stock')                                                                                  
 def Get_Stock():
-    # db = msql.connect(host='34.136.65.150',
+    # db = msql.connect(host='5.189.178.77',
     #                          user='avi',
     #                          passwd='logtera',
     #                          db='Stock')

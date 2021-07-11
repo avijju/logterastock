@@ -75,7 +75,7 @@ def main(waiting_time = 1):
           #  df = df[df.ev != 'status']
             #df.drop(["status"], inplace = True)
            # df=df[['ev', 'sym','i', 'x','p', 's','t', 'z']]
-        connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "34.136.65.150",  "Stock")
+        connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "5.189.178.77",  "Stock")
     #with sqlite3.connect("realtime_crypto.sqlite") as conn:
         #df.to_sql("data", con=conn, if_exists="append", index=False)
         engine = create_engine(connect_string)

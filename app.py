@@ -142,7 +142,7 @@ def stockdata():
         cursor.execute("SELECT ev,sym,v,av,op, truncate((vw*v),2) total,truncate(vw,2) vw,truncate(o,2) o,truncate(c,2) c,truncate(h,2) h,truncate(l,2) l,truncate(a,2) a,z,s,e,saveddate FROM stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
 
         result = cursor.fetchall()
-        print(result)
+        #print(result)
         enco = lambda obj: (
         obj.isoformat()
         if isinstance(obj, datetime.datetime)

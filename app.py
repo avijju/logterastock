@@ -142,7 +142,7 @@ def stockdata():
         cursor.execute("select * from Stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
 
         result = cursor.fetchall()
-        print(result)
+        #print(result)
         enco = lambda obj: (
         obj.isoformat()
         if isinstance(obj, datetime.datetime)
@@ -152,7 +152,7 @@ def stockdata():
         return json.dumps(result, indent=4, sort_keys=True, default=str)
 
     except Error as e:
-        print("Error")
+        #print("Error")
         print(e)
     finally:
         cursor.close()
@@ -217,81 +217,6 @@ def Get_Stock():
     # )
     return str(aa)
 
-@app.route('/avpersec')
-def Avpersec():
-    key = 'DJwpTfnSeTL0T9Ie3nPHjpwd466R3WlM'
-    messages = []
-   
-    
-    my_client = WebSocketClient(STOCKS_CLUSTER, key, my_custom_process_message(messages))  
-    my_client.run_async() 
-       
-    my_client.subscribe("A.*")  # Stock data
-    time.sleep(1)
-
-    my_client.close_connection()
-
-    df = pd.DataFrame(messages)
-
-    df = df.iloc[5:, 0].to_frame()
-    df.columns = ["data"]
-    df["data"] = df["data"].astype("str")
-
-    df = pd.json_normalize(df["data"].apply(lambda x : dict(eval(x))))
-    if df.empty:
-        print('DataFrame is empty!')
-    else:
-        print(df)
-          
-        connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "5.189.178.77",  "Stock")
-    
-        engine = create_engine(connect_string)
-    
-        df.to_sql("aggregates", engine, if_exists='append', index=False)
-    #else:
-    print("Finally finished!")
-
-@app.route('/avpermin')
-def Avpermin():
-    key = 'DJwpTfnSeTL0T9Ie3nPHjpwd466R3WlM'
-    messages = []
-   
-    
-    my_client = WebSocketClient(STOCKS_CLUSTER, key, my_custom_process_message(messages))  
-    my_client.run_async() 
-       
-    my_client.subscribe("AM.*")  # Stock data
-    time.sleep(1)
-
-    my_client.close_connection()
-
-    df = pd.DataFrame(messages)
-
-    df = df.iloc[5:, 0].to_frame()
-    df.columns = ["data"]
-    df["data"] = df["data"].astype("str")
-
-    df = pd.json_normalize(df["data"].apply(lambda x : dict(eval(x))))
-    if df.empty:
-        print('DataFrame is empty!')
-    else:
-        print(df)
-          
-        connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "5.189.178.77",  "Stock")
-    
-        engine = create_engine(connect_string)
-    
-        df.to_sql("aggregates", engine, if_exists='append', index=False)
-    #else:
-    print("Finally finished!")
-
-def my_custom_process_message(messages: List[str]):
-    
-    def add_message_to_list(message):
-        
-        messages.append(ast.literal_eval(message))
-
-    return add_message_to_list
 
     
 class Day:

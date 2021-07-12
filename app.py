@@ -139,7 +139,7 @@ def stockdata():
         cursor = db.cursor(dictionary=True)
 
         print("i m called")
-        cursor.execute("select * from Stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
+        cursor.execute("SELECT ev,sym,v,av,op, (vw*a) total,vw,o,c,h,l,a,z,s,e,saveddate FROM stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
 
         result = cursor.fetchall()
         #print(result)

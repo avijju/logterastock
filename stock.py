@@ -46,7 +46,7 @@ def main(waiting_time = 60):
     
         engine = create_engine(connect_string)
     
-        df.to_sql("aggregates", engine, if_exists='append', index=False)
+        #df.to_sql("aggregates", engine, if_exists='append', index=False)
     #else:
     print("Finally finished!")
 

@@ -16,7 +16,7 @@ def my_custom_process_message(messages: List[str]):
     return add_message_to_list
 
 
-def main(waiting_time = 40):
+def main(waiting_time = 30):
     
     key = 'DJwpTfnSeTL0T9Ie3nPHjpwd466R3WlM'
     messages = []
@@ -41,11 +41,7 @@ def main(waiting_time = 40):
         print('DataFrame is empty!')
     else:
         print(df)
-        cols = ['ev', 'sym','v', 'av','vw', 'o','a', 'z','s', 'e']
-        df=df[cols]
-       # new_dataframe = df.query("ev ==AM")
-        #df= df[df['ev']] =='AM'
-        print(df)
+          
         connect_string = 'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.format("avi", "logtera", "5.189.178.77",  "Stock")
     
         engine = create_engine(connect_string)

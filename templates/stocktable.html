@@ -11,14 +11,14 @@
             <thead>
               <tr>
             <th>Symbol</th>
-            <th>Volume</th>
-            <th>Today's Accumulated  Volume</th>
+            <th>L</th>
+            <!-- <th>Today's Accumulated  Volume</th> -->
             <th>Opening price</th>
-            <th>Average price</th>
-            <th>Highest Price</th>
-            <th>Lowest Price</th>
-            <th>Agregate Vol * Price</th>
-            <th>Time</th>                                   
+            <th>Volume Sum</th>
+            <th>Total</th>
+            <th>odate</th>
+            <th>ldate</th>
+            <!-- <th>Time</th>                                    -->
           </tr>
         </thead> 
           </table> 
@@ -31,18 +31,18 @@ $(document).ready(function() {
       
        "dataSrc": "",
    },
-   "order": [[ 7, "desc" ]],
+   "order": [[ 4, "desc" ]],
        // add column definitions to map your json to the table                                           
        "columns": [
            {data: "sym"},
-           {data: "v"},
-           {data: "av"},
-           {data: "op"},
-           {data: "vw"},
-           {data: "h"},
            {data: "l"},
+        //    {data: "av"},
+           {data: "o"},
+           {data: "sum"},
            {data: "total"},
-           {data:"saveddate"}
+           {data: "odate"},
+           {data: "ldate"},
+        //    {data:"saveddate"}
           
        ]
    
@@ -55,19 +55,20 @@ $(document).ready(function() {
        
         "dataSrc": "",
     },
-    "order": [[ 7, "desc" ]],
+    "order": [[ 4, "desc" ]],
         // add column definitions to map your json to the table                                           
         "columns": [
-        {data: "sym"},
-           {data: "v"},
-           {data: "av"},
-           {data: "op"},
-           {data: "vw"},
-           {data: "h"},
+           {data: "sym"},
            {data: "l"},
+        //    {data: "av"},
+           {data: "o"},
+           {data: "sum"},
            {data: "total"},
-           {data:"saveddate"}
-        ]
+           {data: "odate"},
+           {data: "ldate"},
+        //    {data:"saveddate"}
+          
+       ]
     
     } );
 },60000);

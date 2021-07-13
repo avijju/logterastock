@@ -139,8 +139,8 @@ def stockdata():
         cursor = db.cursor(dictionary=True)
 
         print("i m called")
-        cursor.execute("SELECT ev,sym,v,av,op, truncate((vw*v),2) total,truncate(vw,2) vw,truncate(o,2) o,truncate(c,2) c,truncate(h,2) h,truncate(l,2) l,truncate(a,2) a,z,s,e,saveddate FROM stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
-
+        #cursor.execute("SELECT ev,sym,v,av,op, truncate((vw*v),2) total,truncate(vw,2) vw,truncate(o,2) o,truncate(c,2) c,truncate(h,2) h,truncate(l,2) l,truncate(a,2) a,z,s,e,saveddate FROM stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
+        cursor.execute("with cte as(SELECT sym, o, l,v,saveddate, ROW_NUMBER() OVER (PARTITION BY sym ORDER BY saveddate DESC) as country_rank    FROM aggregates), cte1 as (select sym,o,saveddate from cte where country_rank = 1 and sym = sym), cte2 as (select sym,l,saveddate from cte where country_rank = 5 and sym = sym), cte3 as (select sum(v) sum,sym from cte where country_rank <= 5 and sym = sym group by sym) select cte1.sym,truncate(cte1.o,2) o,truncate(cte2.l,2) l,cte3.sum,truncate(((((cte1.o)-(cte2.l)))*cte3.sum),2) total,cte1.saveddate as odate,cte2.saveddate as ldate  from cte1 join cte2 on cte1.sym = cte2.sym join cte3 on cte1.sym = cte3.sym")
         result = cursor.fetchall()
         #print(result)
         enco = lambda obj: (

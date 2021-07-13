@@ -16,7 +16,7 @@ def my_custom_process_message(messages: List[str]):
     return add_message_to_list
 
 
-def main(waiting_time = 60):
+def main(waiting_time = 30):
     
     key = 'DJwpTfnSeTL0T9Ie3nPHjpwd466R3WlM'
     messages = []
@@ -25,7 +25,7 @@ def main(waiting_time = 60):
     my_client = WebSocketClient(STOCKS_CLUSTER, key, my_custom_process_message(messages))  
     my_client.run_async() 
        
-    my_client.subscribe("AM.*")  # Stock data
+    my_client.subscribe("AM.AAPL,AM.MSFT,AM.GOOG,AM.FB,AM.NFLX,AM.TSLA,AM.DIS,AM.AMD,AM.INTC,AM.BA")  # Stock data
     time.sleep(waiting_time)
 
     my_client.close_connection()

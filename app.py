@@ -23,6 +23,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional, List
 import requests
+import pyodbc 
 import csv
 import time
 import ast
@@ -129,34 +130,53 @@ def tables():
    return render_template('table.html')
 @app.route('/stockdata')                                                                                  
 def stockdata():
-    db = msql.connect(host='5.189.178.77',
-                             user='avi',
-                             passwd='logtera',
-                             db='Stock')
+    server = 'tcp:5.189.178.77' 
+    database = 'Stocks' 
+    username = 'sa' 
+    password = 'media@1234' 
+   
+    # conn = pyodbc.connect('Driver={SQL Server};'
+    #                   'Server=5.189.178.77;'
+    #                   'Database=Stocks;'
+    #                   'User Id=sa;'
+    #                   'password=media@1234;'
+    #                   'Trusted_Connection=False;'
+    #                   'MultipleActiveResultSets=true;')
+    # db = msql.connect(host='5.189.178.77',
+    #                          user='avi',
+    #                          passwd='logtera',
+    #                          db='Stock')
 
 # This line is that you need
     try:
-        cursor = db.cursor(dictionary=True)
-
+        conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+        cursor = conn.cursor()
         print("i m called")
         #cursor.execute("SELECT ev,sym,v,av,op, truncate((vw*v),2) total,truncate(vw,2) vw,truncate(o,2) o,truncate(c,2) c,truncate(h,2) h,truncate(l,2) l,truncate(a,2) a,z,s,e,saveddate FROM stock.aggregates where saveddate =(select saveddate from Stock.aggregates ORDER BY  saveddate DESC lIMIT 1)")
-        cursor.execute("with cte as(SELECT sym, o, l,v,saveddate, ROW_NUMBER() OVER (PARTITION BY sym ORDER BY saveddate DESC) as country_rank    FROM aggregates), cte1 as (select sym,o,saveddate from cte where country_rank = 1 and sym = sym), cte2 as (select sym,l,saveddate from cte where country_rank = 5 and sym = sym), cte3 as (select sum(v) sum,sym from cte where country_rank <= 5 and sym = sym group by sym) select cte1.sym,truncate(cte1.o,2) o,truncate(cte2.l,2) l,cte3.sum,truncate(((((cte1.o)-(cte2.l)))*cte3.sum),2) total,cte1.saveddate as odate,cte2.saveddate as ldate  from cte1 join cte2 on cte1.sym = cte2.sym join cte3 on cte1.sym = cte3.sym")
+        qry ="with cte as(SELECT ticker, o, l,v,savedate, ROW_NUMBER() OVER (PARTITION BY ticker ORDER BY savedate DESC) as country_rank    FROM stockaggregate), cte1 as (select ticker,o,savedate from cte where country_rank = 1 and ticker = ticker), cte2 as (select ticker,l,savedate from cte where country_rank = 5 and ticker = ticker), cte3 as (select sum(v) sum,ticker from cte where country_rank <= 5 and ticker = ticker group by ticker) select cte1.ticker,cte1.o,cte2.l,cte3.sum,((cte1.o-cte2.l)*cte3.sum) total,cte1.savedate as odate,cte2.savedate as ldate  from cte1  join cte2 on cte1.ticker= cte2.ticker join cte3 on cte1.ticker = cte3.ticker"
+        #print(qry)
+        cursor.execute("with cte as(SELECT ticker, o, l,v,savedate, ROW_NUMBER() OVER (PARTITION BY ticker ORDER BY savedate DESC) as country_rank    FROM stockaggregate), cte1 as (select ticker,o,savedate from cte where country_rank = 1 and ticker = ticker), cte2 as (select ticker,l,savedate from cte where country_rank = 5 and ticker = ticker), cte3 as (select sum(v) sum,ticker from cte where country_rank <= 5 and ticker = ticker group by ticker) select cte1.ticker,cte1.o,cte2.l,cte3.sum,((cte1.o-cte2.l)*cte3.sum) total,cte1.savedate as odate,cte2.savedate as ldate  from cte1  join cte2 on cte1.ticker= cte2.ticker join cte3 on cte1.ticker = cte3.ticker")
         result = cursor.fetchall()
-        #print(result)
+        insertObject = []
+        columnNames = [column[0] for column in cursor.description]
+
+        for record in result:
+            insertObject.append( dict( zip( columnNames , record ) ) )
+        print(insertObject)
         enco = lambda obj: (
         obj.isoformat()
         if isinstance(obj, datetime.datetime)
         or isinstance(obj, datetime.date)
         else None
         )
-        return json.dumps(result, indent=4, sort_keys=True, default=str)
+        return json.dumps(insertObject, indent=4, sort_keys=True, default=str)
 
     except Error as e:
         #print("Error")
         print(e)
     finally:
         cursor.close()
-        db.close()
+        #db.close()
     
 def json_dumps_default(obj):
     # ref: http://stackoverflow.com/a/16957370/2144390

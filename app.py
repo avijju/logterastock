@@ -23,7 +23,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional, List
 import requests
-import pyodbc 
+import pyodbc
 import csv
 import time
 import ast

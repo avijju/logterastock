@@ -28,7 +28,7 @@ import csv
 import time
 import ast
 from polygon import WebSocketClient, STOCKS_CLUSTER, CRYPTO_CLUSTER, FOREX_CLUSTER
-
+from pymongo import MongoClient
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 conn_params_dic = {
@@ -128,6 +128,12 @@ def page_test():
 @app.route('/tables')
 def tables():
    return render_template('table.html')
+
+@app.route('/newstockdata')
+def newstockdata():
+    response = requests.get("http://34.132.27.77/Polygon/api/StockData/agreegateAsync")
+    print(response.json())
+    return response.json()    
 @app.route('/stockdata')                                                                                  
 def stockdata():
     server = 'tcp:5.189.178.77' 

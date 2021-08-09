@@ -11,13 +11,13 @@
             <thead>
               <tr>
             <th>Symbol</th>
-            <th>L</th>
+            <th>Caluclated Avarage</th>
             <!-- <th>Today's Accumulated  Volume</th> -->
-            <th>Opening price</th>
-            <th>Volume Sum</th>
-            <th>Total</th>
-            <th>odate</th>
-            <th>ldate</th>
+            <th>volume weighted average price</th>
+            <th>First AV</th>
+            <th>Last AV</th>
+            <!-- <th>odate</th>
+            <th>ldate</th> -->
             <!-- <th>Time</th>                                    -->
           </tr>
         </thead> 
@@ -27,21 +27,21 @@
 $(document).ready(function() {
     $('#myTable').DataTable( {
        
-       "ajax": {  "url":"/stockdata",
+       "ajax": {  "url":"http://34.132.27.77/Polygon/api/StockData/agreegateAsync",
       
        "dataSrc": "",
    },
    "order": [[ 4, "desc" ]],
        // add column definitions to map your json to the table                                           
        "columns": [
-           {data: "ticker"},
-           {data: "l"},
+           {data: "sym"},
+           {data: "calval"},
         //    {data: "av"},
-           {data: "o"},
-           {data: "sum"},
-           {data: "total"},
-           {data: "odate"},
-           {data: "ldate"},
+           {data: "a"},
+           {data: "first"},
+           {data: "17833"},
+        //    {data: "odate"},
+        //    {data: "ldate"},
         //    {data:"saveddate"}
           
        ]
@@ -51,21 +51,19 @@ $(document).ready(function() {
         $('#myTable').DataTable().clear().destroy();
     $('#myTable').DataTable( {
        
-        "ajax": {  "url":"/stockdata",
+        "ajax": {  "url":"http://34.132.27.77/Polygon/api/StockData/agreegateAsync",
        
         "dataSrc": "",
     },
     "order": [[ 4, "desc" ]],
         // add column definitions to map your json to the table                                           
         "columns": [
-           {data: "ticker"},
-           {data: "l"},
+        {data: "sym"},
+           {data: "calval"},
         //    {data: "av"},
-           {data: "o"},
-           {data: "sum"},
-           {data: "total"},
-           {data: "odate"},
-           {data: "ldate"},
+           {data: "a"},
+           {data: "first"},
+           {data: "17833"},
         //    {data:"saveddate"}
           
        ]

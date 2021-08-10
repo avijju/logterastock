@@ -16,8 +16,8 @@
             <th>volume weighted average price</th>
             <th>First AV</th>
             <th>Last AV</th>
-            <!-- <th>odate</th>
-            <th>ldate</th> -->
+            <th>First E</th>
+            <th>Last E</th>
             <!-- <th>Time</th>                                    -->
           </tr>
         </thead> 
@@ -40,8 +40,8 @@ $(document).ready(function() {
            {data: "a"},
            {data: "first"},
            {data: "last"},
-        //    {data: "odate"},
-        //    {data: "ldate"},
+            {data: "firsttime"},
+            {data: "lasttime"},
         //    {data:"saveddate"}
           
        ]
@@ -64,11 +64,12 @@ $(document).ready(function() {
            {data: "a"},
            {data: "first"},
            {data: "last"},
-        //    {data:"saveddate"}
+           {data: "firsttime"},
+            {data: "lasttime"},
           
        ]
     
     } );
-},60000);
+},240000);
 });
 </script>

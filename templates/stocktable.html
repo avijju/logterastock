@@ -14,10 +14,12 @@
             <th>Caluclated Avarage</th>
             <!-- <th>Today's Accumulated  Volume</th> -->
             <th>volume weighted average price</th>
+            <th>volume weighted average price Last</th>
             <th>First AV</th>
             <th>Last AV</th>
             <th>First E</th>
             <th>Last E</th>
+            <th>Diffrence in Seconds</th>
             <!-- <th>Time</th>                                    -->
           </tr>
         </thead> 
@@ -38,11 +40,12 @@ $(document).ready(function() {
            {data: "calval"},
         //    {data: "av"},
            {data: "a"},
+           {data: "lasta"},
            {data: "first"},
            {data: "last"},
             {data: "firsttime"},
             {data: "lasttime"},
-        //    {data:"saveddate"}
+            {data:"diffrence"}
           
        ]
    
@@ -62,10 +65,12 @@ $(document).ready(function() {
            {data: "calval"},
         //    {data: "av"},
            {data: "a"},
+           {data: "lasta"},
            {data: "first"},
            {data: "last"},
            {data: "firsttime"},
             {data: "lasttime"},
+            {data:"diffrence"}
           
        ]
     

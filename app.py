@@ -123,7 +123,56 @@ def page_test():
     # )
     return json.dumps(result, indent=4, sort_keys=True, default=str)
 
+@app.route('/dbscript')
+def dbscript():
+    client = MongoClient("mongodb://34.132.27.77:27017")
+    database = client["Stock"]
+    collection = database["StockAgreegateDatanew"]
 
+    pipeline = [{
+     "$match": {
+         "date": "2021-08-16"
+     }
+    }, {
+        "$group": {
+            "_id": "$sym"
+            }
+    }, {
+        "$lookup": {
+            "from": "StockAgreegateDatanew",
+            "as": "top5",
+            "let": {
+                "g": "$_id"
+            },
+            "pipeline": [{
+                "$match": {
+                    "$expr": {
+                        "$eq": ["$sym", "$$g"]
+                    }
+                }
+            }, {
+                "$sort": {
+                    "saveddate": -1
+                }
+            }, {
+                "$project": {
+                    "_id": 0,
+                    "v": 1,
+                    "av": 1,
+                    "sym": 1,
+                    "a": 1,
+                    "e": 1
+                }
+            }]
+        }
+    }]
+
+# Created with NoSQLBooster, the essential IDE for MongoDB - https://nosqlbooster.com
+    cursor = collection.aggregate(pipeline)
+    try:
+       print(cursor)
+    finally:
+        cursor.close()
     
 @app.route('/tables')
 def tables():
@@ -131,9 +180,9 @@ def tables():
 
 @app.route('/newstockdata')
 def newstockdata():
-    response = requests.get("http://34.132.27.77/Polygon/api/StockData/agreegateAsync")
+    response = requests.get("https://stock.avinashbhatt.com/api/StockData/agreegateAsync")
     print(response.json())
-    return response.json()    
+    return  json.dumps(response.json(), indent=4, sort_keys=True, default=json)#json.loads(response.text)    
 @app.route('/stockdata')                                                                                  
 def stockdata():
     server = 'tcp:5.189.178.77' 
